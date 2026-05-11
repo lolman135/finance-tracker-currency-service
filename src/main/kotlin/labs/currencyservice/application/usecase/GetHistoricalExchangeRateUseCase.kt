@@ -7,7 +7,10 @@ import labs.currencyservice.domain.model.CurrencyCode
 import labs.currencyservice.domain.model.ExchangeRate
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.math.RoundingMode
 
+
+//idk is it necessary, maybe i'll delete it later
 //@Service
 // TODO: uncomment later
 class GetHistoricalExchangeRateUseCase(
@@ -33,7 +36,7 @@ class GetHistoricalExchangeRateUseCase(
                 command.instant
             )
 
-        val targetRate = usdToTargetRate / usdToBaseRate
+        val targetRate = usdToTargetRate.divide(usdToBaseRate, 10, RoundingMode.HALF_UP)
 
         return ExchangeRate(
             from = command.from,
