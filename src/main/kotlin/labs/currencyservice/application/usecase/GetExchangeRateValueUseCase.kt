@@ -18,7 +18,7 @@ class GetExchangeRateValueUseCase(
 //    @Transactional
 // TODO: uncomment later
     override fun execute(command: GetExchangeRateCommand): BigDecimal {
-        return  exchangeRateCache.getRate(command.from, command.to)
+        return exchangeRateCache.getRate(command.from, command.to)
             ?: getTargetExchangeRate(command.from, command.to)
     }
 
@@ -31,6 +31,8 @@ class GetExchangeRateValueUseCase(
             .findLatestRate(CurrencyCode.USD, to)?.rate
             ?: throw ExchangeRateNotFoundException(CurrencyCode.USD, to)
 
-        return usdToTargetRate.divide(usdToBaseRate, 10, RoundingMode.HALF_UP)
+        val targetRateValue = usdToTargetRate.divide(usdToBaseRate, 10, RoundingMode.HALF_UP)
+        exchangeRateCache.saveRate(from, to, targetRateValue)
+        return targetRateValue
     }
 }
