@@ -1,0 +1,47 @@
+databaseChangeLog:
+  - changeSet:
+      id: currecny-db
+      author: kyrylo kusovskyi
+      changes:
+        - createTable:
+            tableName: exchange_rates
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: from
+                  type: VARCHAR(3)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: to
+                  type: VARCHAR(3)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: rate
+                  type: NUMERIC(30, 10)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: fetched_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+
+        - createSequence:
+            sequenceName: exchange_id_seq
+            incrementBy: 50
+
+        - createIndex:
+            tableName: exchange_rates
+            indexName: idx_exchange_rates_from_to
+            columns:
+              - column:
+                  name: from
+              - column:
+                  name: to

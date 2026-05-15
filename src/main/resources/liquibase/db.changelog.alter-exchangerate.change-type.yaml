@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: currecny-db
+      author: kyrylo kusovskyi
+      changes:
+        - modifyDataType:
+            tableName: exchange_rates
+            columnName: fetched_at
+            newDataType: TIMESTAMPTZ
