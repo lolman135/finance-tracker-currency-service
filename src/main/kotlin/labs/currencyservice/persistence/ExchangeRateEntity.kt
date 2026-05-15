@@ -1,4 +1,4 @@
-package labs.currencyservice.persistence.jpa
+package labs.currencyservice.persistence
 
 import jakarta.persistence.Column
 import jakarta.persistence.Entity

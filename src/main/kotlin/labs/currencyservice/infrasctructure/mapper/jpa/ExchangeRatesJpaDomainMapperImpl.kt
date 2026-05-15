@@ -2,7 +2,7 @@ package labs.currencyservice.infrasctructure.mapper.jpa
 
 import labs.currencyservice.domain.model.CurrencyCode
 import labs.currencyservice.domain.model.ExchangeRate
-import labs.currencyservice.persistence.jpa.ExchangeRateEntity
+import labs.currencyservice.persistence.ExchangeRateEntity
 import org.springframework.stereotype.Component
 
 @Component
@@ -19,8 +19,8 @@ class ExchangeRatesJpaDomainMapperImpl : ExchangeRatesJpaDomainMapper {
 
     override fun toEntity(domain: ExchangeRate): ExchangeRateEntity {
         return ExchangeRateEntity(
-            from = domain.from.toString(),
-            to = domain.to.toString(),
+            from = domain.from.name,
+            to = domain.to.name,
             rate = domain.rate,
             fetchedAt = domain.fetchedAt
         )

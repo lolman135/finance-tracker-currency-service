@@ -5,7 +5,6 @@ import org.springframework.boot.testcontainers.service.connection.ServiceConnect
 import org.springframework.context.annotation.Bean
 import org.testcontainers.containers.GenericContainer
 import org.testcontainers.postgresql.PostgreSQLContainer
-import org.testcontainers.rabbitmq.RabbitMQContainer
 import org.testcontainers.utility.DockerImageName
 
 @TestConfiguration(proxyBeanMethods = false)
@@ -15,12 +14,6 @@ class TestcontainersConfiguration {
     @ServiceConnection
     fun postgresContainer(): PostgreSQLContainer {
         return PostgreSQLContainer(DockerImageName.parse("postgres:latest"))
-    }
-
-    @Bean
-    @ServiceConnection
-    fun rabbitContainer(): RabbitMQContainer {
-        return RabbitMQContainer(DockerImageName.parse("rabbitmq:latest"))
     }
 
     @Bean

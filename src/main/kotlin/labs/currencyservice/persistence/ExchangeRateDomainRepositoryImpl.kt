@@ -1,4 +1,4 @@
-package labs.currencyservice.persistence.jpa
+package labs.currencyservice.persistence
 
 import labs.currencyservice.domain.ExchangeRateRepository
 import labs.currencyservice.domain.model.CurrencyCode

@@ -4,8 +4,6 @@ import labs.currencyservice.application.usecase.commands.ConvertCurrencyCommand
 import labs.currencyservice.application.usecase.commands.GetExchangeRateCommand
 import labs.currencyservice.application.usecase.commands.GetHistoricalExchangeRateCommand
 import labs.currencyservice.application.usecase.outbound_info.ConvertedCurrencyInfo
-import labs.currencyservice.domain.model.ExchangeRate
-import java.math.BigDecimal
 
 //@Service
 // TODO: uncomment later

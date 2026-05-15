@@ -6,6 +6,20 @@ spring:
     change-log: classpath:liquibase/db.changelog-master.yaml
     enabled: true
 
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+      password: ${REDIS_PASSWORD}
+      database: 0
+      connect-timeout: 2s
+      timeout: 1s
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+
   datasource:
     driver-class-name: org.postgresql.Driver
     url: ${DB_URL}
@@ -32,3 +46,11 @@ spring:
         write-dates-as-timestamps: false
     serialization:
       indent-output: true
+
+cache:
+  lifetime-minutes:
+    60
+
+frankfurter:
+  api:
+    url: https://api.frankfurter.dev/v2/rates

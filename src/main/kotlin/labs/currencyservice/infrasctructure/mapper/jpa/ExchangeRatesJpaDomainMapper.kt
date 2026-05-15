@@ -1,7 +1,7 @@
 package labs.currencyservice.infrasctructure.mapper.jpa
 
 import labs.currencyservice.domain.model.ExchangeRate
-import labs.currencyservice.persistence.jpa.ExchangeRateEntity
+import labs.currencyservice.persistence.ExchangeRateEntity
 
 interface ExchangeRatesJpaDomainMapper {
 

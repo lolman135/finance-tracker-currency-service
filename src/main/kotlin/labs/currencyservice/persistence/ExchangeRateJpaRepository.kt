@@ -1,4 +1,4 @@
-package labs.currencyservice.persistence.jpa
+package labs.currencyservice.persistence
 
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
