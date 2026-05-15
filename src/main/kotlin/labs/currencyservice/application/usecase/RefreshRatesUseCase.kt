@@ -9,19 +9,17 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.Instant
 
-//@Service
-// TODO: uncomment later
+@Service
 class RefreshRatesUseCase(
     private val exchangeRateCache: ExchangeRateCache,
     private val exchangeRateRepository: ExchangeRateRepository,
     private val externalRateProvider: ExternalRateProvider
 ) : UseCase<Unit, Unit>{
 
-//    @Transactional
-// TODO: uncomment later
     override fun execute(command: Unit) {
 
         val allRatesMap = externalRateProvider.getAllRates(CurrencyCode.USD)
+        println(allRatesMap)
 
         val rates = allRatesMap.map { (currency, value) ->
             ExchangeRate(
@@ -32,8 +30,9 @@ class RefreshRatesUseCase(
             )
         }
 
+        exchangeRateRepository.saveAll(rates)
+
         rates.forEach {
-            exchangeRateRepository.save(it)
             exchangeRateCache.saveRate(it.from, it.to, it.rate)
         }
 

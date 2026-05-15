@@ -1,5 +1,6 @@
 package labs.currencyservice.persistence
 
+import jakarta.transaction.Transactional
 import labs.currencyservice.domain.ExchangeRateRepository
 import labs.currencyservice.domain.model.CurrencyCode
 import labs.currencyservice.domain.model.ExchangeRate
@@ -23,12 +24,34 @@ class ExchangeRateDomainRepositoryImpl(
         return mapper.toDomain(jpaRepository.save(mapper.toEntity(rate)))
     }
 
+    @Transactional
+    override fun saveAll(rates: List<ExchangeRate>) {
+        val entities = rates.map { mapper.toEntity(it) }
+        jpaRepository.saveAll(entities)
+    }
+
+    override fun findLatestRates(from: CurrencyCode, toCurrencies: List<CurrencyCode>): List<ExchangeRate> {
+        val codesAsStrings = toCurrencies.map { it.name }
+        val exchangeRates = jpaRepository.findLatestRates(from.name, codesAsStrings).map { mapper.toDomain(it) }
+        return exchangeRates
+    }
+
+    override fun findLatestRatesBefore(
+        from: CurrencyCode,
+        toCurrencies: List<CurrencyCode>,
+        fetchedBefore: Instant
+    ): List<ExchangeRate> {
+        val codesAsStrings = toCurrencies.map { it.name }
+        val exchangeRates = jpaRepository.findLatestRatesBefore(from.name, codesAsStrings, fetchedBefore).map { mapper.toDomain(it) }
+        return exchangeRates
+    }
+
     override fun findLatestRateBefore(
         from: CurrencyCode,
         to: CurrencyCode,
-        timestamp: Instant
+        fetchedBefore: Instant
     ): ExchangeRate? {
-        return jpaRepository.findLatestRateBefore(from.toString(), to.toString(), timestamp)
+        return jpaRepository.findLatestRateBefore(from.toString(), to.toString(), fetchedBefore)
             .map {mapper.toDomain(it)}
             .getOrNull()
     }

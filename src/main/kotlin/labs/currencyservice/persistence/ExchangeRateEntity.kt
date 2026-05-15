@@ -14,14 +14,14 @@ import java.time.Instant
 @Table(name = "exchange_rates")
 class ExchangeRateEntity(
     @get:Id
-    @get:GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "role_id_seq")
-    @get:SequenceGenerator(name = "exchange_id_seq", sequenceName = "role_id_seq", allocationSize = 50)
+    @get:GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "exchange_id_seq")
+    @get:SequenceGenerator(name = "exchange_id_seq", sequenceName = "exchange_id_seq", allocationSize = 50)
     var id: Long? = null,
 
-    @get:Column(name = "from")
+    @get:Column(name = "currency_from")
     var from: String,
 
-    @get:Column(name = "to")
+    @get:Column(name = "currency_to")
     var to: String,
 
     @get:Column(name = "rate")

@@ -10,15 +10,12 @@ import org.springframework.transaction.annotation.Transactional
 import java.math.RoundingMode
 
 
-//idk is it necessary, maybe i'll delete it later
-//@Service
-// TODO: uncomment later
+@Service
 class GetHistoricalExchangeRateUseCase(
     private val exchangeRateRepository: ExchangeRateRepository
 ) : UseCase<GetHistoricalExchangeRateCommand, ExchangeRate> {
 
-//    @Transactional
-// TODO: uncomment later
+    @Transactional
     override fun execute(command: GetHistoricalExchangeRateCommand): ExchangeRate {
         val usdToBaseRate = exchangeRateRepository
             .findLatestRateBefore(CurrencyCode.USD, command.from, command.instant)?.rate

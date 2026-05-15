@@ -6,4 +6,5 @@ import java.math.BigDecimal
 interface ExchangeRateCache {
     fun getRate(from: CurrencyCode, to: CurrencyCode): BigDecimal?
     fun saveRate(from: CurrencyCode, to: CurrencyCode, rate: BigDecimal)
+    fun getRates(pairs: List<Pair<CurrencyCode, CurrencyCode>>): Map<Pair<CurrencyCode, CurrencyCode>, BigDecimal>
 }

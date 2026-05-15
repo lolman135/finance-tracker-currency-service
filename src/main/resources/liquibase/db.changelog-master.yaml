@@ -1,3 +1,7 @@
 databaseChangeLog:
   - include:
       file: liquibase/db.changelog.init-exchangerate.yaml
+  - include:
+      file: liquibase/db.changelog.alter-exchangerate.change-type.yaml
+  - include:
+      file: liquibase/db.changelog.alter-exchangerate.rename-columns.yaml

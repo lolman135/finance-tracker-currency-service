@@ -26,5 +26,14 @@ class ExchangeRateRedisCacheImpl(
         redisTemplate.opsForValue().set(key, rate.toPlainString(), realTtl)
     }
 
+    override fun getRates(pairs: List<Pair<CurrencyCode, CurrencyCode>>): Map<Pair<CurrencyCode, CurrencyCode>, BigDecimal> {
+        val keys = pairs.map { (from, to) -> buildKey(from, to) }
+        val values = redisTemplate.opsForValue().multiGet(keys) ?: emptyList()
+
+        return pairs.zip(values)
+            .filter{ (_, value) -> value != null}
+            .associate { (pair, value) -> pair to BigDecimal(value!!) }
+    }
+
     private fun buildKey(from: CurrencyCode, to: CurrencyCode) = "rates:$from:$to"
 }

@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-complex-index
+      author: kyrylo kusovskyi
+      changes:
+        - createIndex:
+            tableName: exchange_rates
+            indexName: idx_rates_latest_lookup
+            columns:
+              - column: { name: currency_from }
+              - column: { name: currency_to }
+              - column: { name: fetched_at, descending: true }

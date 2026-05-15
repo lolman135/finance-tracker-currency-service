@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: rename-from-to-columns
+      author: kyrylo kusovskyi
+      changes:
+        - renameColumn:
+            tableName: exchange_rates
+            oldColumnName: from
+            newColumnName: currency_from
+            columnDataType: VARCHAR(3)
+
+        - renameColumn:
+            tableName: exchange_rates
+            oldColumnName: to
+            newColumnName: currency_to
+            columnDataType: VARCHAR(3)
+
+        - dropIndex:
+            indexName: idx_exchange_rates_from_to
+            tableName: exchange_rates
+
+        - createIndex:
+            tableName: exchange_rates
+            indexName: idx_exchange_rates_lookup
+            columns:
+              - column:
+                  name: currency_from
+              - column:
+                  name: currency_to
+              - column:
+                  name: fetched_at
+                  descending: true

@@ -5,18 +5,18 @@ import labs.currencyservice.application.external.ExchangeRateCache
 import labs.currencyservice.application.usecase.commands.GetExchangeRateCommand
 import labs.currencyservice.domain.ExchangeRateRepository
 import labs.currencyservice.domain.model.CurrencyCode
+import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.math.BigDecimal
 import java.math.RoundingMode
 
-//@Service
-// TODO: uncomment later
+@Service
 class GetExchangeRateValueUseCase(
     private val exchangeRateRepository: ExchangeRateRepository,
     private val exchangeRateCache: ExchangeRateCache
 ) : UseCase<GetExchangeRateCommand, BigDecimal> {
 
-//    @Transactional
-// TODO: uncomment later
+    @Transactional
     override fun execute(command: GetExchangeRateCommand): BigDecimal {
         return exchangeRateCache.getRate(command.from, command.to)
             ?: getTargetExchangeRate(command.from, command.to)

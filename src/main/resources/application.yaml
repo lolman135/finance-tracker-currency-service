@@ -32,6 +32,7 @@ spring:
     properties:
       hibernate:
         jdbc.time_zone: UTC
+        jdbc.hibernate.jdbc.batch_size: 50
         jdbc.batch_size: 15
         order_inserts: true
         order_updates: true

@@ -4,9 +4,9 @@ import labs.currencyservice.application.usecase.commands.ConvertCurrencyCommand
 import labs.currencyservice.application.usecase.commands.GetExchangeRateCommand
 import labs.currencyservice.application.usecase.commands.GetHistoricalExchangeRateCommand
 import labs.currencyservice.application.usecase.outbound_info.ConvertedCurrencyInfo
+import org.springframework.stereotype.Service
 
-//@Service
-// TODO: uncomment later
+@Service
 class ConvertCurrencyUseCase(
     private val getExchangeRateValueUseCase: GetExchangeRateValueUseCase,
     private val getHistoricalExchangeRateUseCase: GetHistoricalExchangeRateUseCase
