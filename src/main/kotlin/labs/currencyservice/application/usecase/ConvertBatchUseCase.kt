@@ -4,6 +4,7 @@ import labs.currencyservice.application.exceptions.ExchangeRateNotFoundException
 import labs.currencyservice.application.external.ExchangeRateCache
 import labs.currencyservice.application.usecase.commands.ConvertBatchCommand
 import labs.currencyservice.application.usecase.outbound_info.ConvertedBatchInfo
+import labs.currencyservice.application.usecase.outbound_info.ConvertedItemInfo
 import labs.currencyservice.domain.ExchangeRateRepository
 import labs.currencyservice.domain.model.CurrencyCode
 import labs.currencyservice.domain.model.ExchangeRate
@@ -38,26 +39,25 @@ class ConvertBatchUseCase(
             getRateBatchFromDB(fromCodesList, command.targetCurrency, command.before)
         }
 
-        /*
-            TODO TODO TODO TODO TODO TODO TODO TODO TODO
-             ===========finish calculations============
-             __________________________________________
-             here you need to finish calculations. First of all: create list of convertedItems
-             it contains:
-              • from - this is currency you can get from command or from finalRates map
-              • amount - starter amount from command
-              • rate - this is value from finalRates map
-              • convertedAmount = amount * rate
-             Than you need to count total amount: just iterate by ConvertedItemsInfo list
-             and call .convertedAmount by .sum{}
-             Finally: at. if fetchedBefore is null -- set it as Instance.now()
-             else -- fetchedBefore.
-             So, here you go
-         */
+        val items: List<ConvertedItemInfo> = command.items.map { item ->
+            val tempRate = finalRates[item.from to command.targetCurrency]!!
+            ConvertedItemInfo(
+                from = item.from,
+                amount = item.amount,
+                rate = tempRate,
+                convertedAmount = item.amount.multiply(tempRate).setScale(2, RoundingMode.HALF_UP)
+            )
+        }
 
+        val totalAmount = items.sumOf { it.convertedAmount }
+        val at = command.before ?: Instant.now()
 
-
-        TODO("finish")
+        return ConvertedBatchInfo(
+            targetCurrency = command.targetCurrency,
+            totalAmount = totalAmount,
+            at = at,
+            items = items
+        )
     }
 
     private fun getRateBatchFromDB(
