@@ -6,7 +6,7 @@ plugins {
     kotlin("plugin.jpa") version "2.2.21"
 }
 
-group = "labs"
+group = "tracker"
 version = "0.0.1-SNAPSHOT"
 description = "currency-service"
 
@@ -28,6 +28,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
     implementation("org.springframework.boot:spring-boot-starter-liquibase")
     implementation("org.liquibase:liquibase-core")
+    implementation("jakarta.validation:jakarta.validation-api:3.1.0")
+    implementation("org.springframework.boot:spring-boot-starter-validation:3.5.5")
     implementation("io.github.cdimascio:dotenv-java:3.0.0")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     testImplementation("io.projectreactor:reactor-test")
