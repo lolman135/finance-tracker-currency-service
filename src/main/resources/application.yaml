@@ -52,6 +52,6 @@ cache:
   lifetime-minutes:
     60
 
-frankfurter:
+rate-provider:
   api:
-    url: https://api.frankfurter.dev/v2/rates
+    url: ${RATE_PROVIDER_URL}

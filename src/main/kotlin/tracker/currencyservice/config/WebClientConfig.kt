@@ -9,7 +9,7 @@ import org.springframework.web.reactive.function.client.WebClient
 class WebClientConfig{
 
     @Bean
-    fun frankfurterWebClient(@Value("\${frankfurter.api.url}") frankfurterUrl: String): WebClient {
+    fun frankfurterWebClient(@Value("\${rate-provider.api.url}") frankfurterUrl: String): WebClient {
         return WebClient.builder()
             .baseUrl(frankfurterUrl)
             .build()

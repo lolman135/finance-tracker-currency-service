@@ -61,6 +61,7 @@ class ConvertBatchUseCase(
         )
     }
 
+
     private fun getRateBatchFromDB(
         fromCodesList: List<CurrencyCode>,
         targetCurrencyCode: CurrencyCode,

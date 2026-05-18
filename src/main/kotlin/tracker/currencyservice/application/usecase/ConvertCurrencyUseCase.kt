@@ -5,6 +5,8 @@ import tracker.currencyservice.application.usecase.commands.GetExchangeRateComma
 import tracker.currencyservice.application.usecase.commands.GetHistoricalExchangeRateCommand
 import tracker.currencyservice.application.usecase.outbound_info.ConvertedCurrencyInfo
 import org.springframework.stereotype.Service
+import java.math.BigDecimal
+import java.math.RoundingMode
 
 @Service
 class ConvertCurrencyUseCase(
@@ -26,7 +28,7 @@ class ConvertCurrencyUseCase(
             ).rate
         }
 
-        val finalAmount = command.amount * targetRateValue
+        val finalAmount = command.amount.multiply(targetRateValue).setScale(2, RoundingMode.HALF_UP)
 
         return ConvertedCurrencyInfo(
             from = command.from,
