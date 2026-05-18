@@ -13,7 +13,7 @@ class RefreshRatesUseCase(
     private val exchangeRateCache: ExchangeRateCache,
     private val exchangeRateRepository: ExchangeRateRepository,
     private val externalRateProvider: ExternalRateProvider
-) : UseCase<Unit, Unit>{
+) : UseCase<Unit, Unit> {
 
     override fun execute(command: Unit) {
 

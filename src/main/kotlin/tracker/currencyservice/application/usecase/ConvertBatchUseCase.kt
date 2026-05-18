@@ -90,7 +90,7 @@ class ConvertBatchUseCase(
 
         val filteredFromCodes = fromCodesList.filter { it != CurrencyCode.USD }
 
-        val usdToMissingRates = if (fetchedBefore == null){
+        val usdToMissingRates = if (fetchedBefore == null) {
             repository.findLatestRates(CurrencyCode.USD, filteredFromCodes)
         } else {
             repository.findLatestRatesBefore(CurrencyCode.USD, filteredFromCodes, fetchedBefore)

@@ -19,7 +19,7 @@ class GetHistoricalExchangeRateUseCase(
     @Transactional
     override fun execute(command: GetHistoricalExchangeRateCommand): ExchangeRate {
 
-        if(command.from == command.to)
+        if (command.from == command.to)
             return ExchangeRate(
                 from = command.from,
                 to = command.to,

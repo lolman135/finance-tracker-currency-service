@@ -31,7 +31,7 @@ class ExchangeRateRedisCacheImpl(
         val values = redisTemplate.opsForValue().multiGet(keys) ?: emptyList()
 
         return pairs.zip(values)
-            .filter{ (_, value) -> value != null}
+            .filter { (_, value) -> value != null }
             .associate { (pair, value) -> pair to BigDecimal(value!!) }
     }
 

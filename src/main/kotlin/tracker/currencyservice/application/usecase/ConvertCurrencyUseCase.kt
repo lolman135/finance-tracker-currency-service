@@ -12,11 +12,11 @@ import java.math.RoundingMode
 class ConvertCurrencyUseCase(
     private val getExchangeRateValueUseCase: GetExchangeRateValueUseCase,
     private val getHistoricalExchangeRateUseCase: GetHistoricalExchangeRateUseCase
-) : UseCase<ConvertCurrencyCommand, ConvertedCurrencyInfo>{
+) : UseCase<ConvertCurrencyCommand, ConvertedCurrencyInfo> {
 
     override fun execute(command: ConvertCurrencyCommand): ConvertedCurrencyInfo {
 
-        val targetRateValue = if (command.at == null){
+        val targetRateValue = if (command.at == null) {
             getExchangeRateValueUseCase.execute(GetExchangeRateCommand(command.from, command.to))
         } else {
             getHistoricalExchangeRateUseCase.execute(

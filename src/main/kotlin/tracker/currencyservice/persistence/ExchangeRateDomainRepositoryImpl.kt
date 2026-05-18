@@ -16,7 +16,7 @@ class ExchangeRateDomainRepositoryImpl(
 ) : ExchangeRateRepository {
 
     override fun findLatestRate(from: CurrencyCode, to: CurrencyCode): ExchangeRate? =
-         jpaRepository.findLatestRate(from.toString(), to.toString())
+        jpaRepository.findLatestRate(from.toString(), to.toString())
             .map { mapper.toDomain(it) }
             .getOrNull()
 
@@ -42,7 +42,8 @@ class ExchangeRateDomainRepositoryImpl(
         fetchedBefore: Instant
     ): List<ExchangeRate> {
         val codesAsStrings = toCurrencies.map { it.name }
-        val exchangeRates = jpaRepository.findLatestRatesBefore(from.name, codesAsStrings, fetchedBefore).map { mapper.toDomain(it) }
+        val exchangeRates =
+            jpaRepository.findLatestRatesBefore(from.name, codesAsStrings, fetchedBefore).map { mapper.toDomain(it) }
         return exchangeRates
     }
 
@@ -52,7 +53,7 @@ class ExchangeRateDomainRepositoryImpl(
         fetchedBefore: Instant
     ): ExchangeRate? {
         return jpaRepository.findLatestRateBefore(from.toString(), to.toString(), fetchedBefore)
-            .map {mapper.toDomain(it)}
+            .map { mapper.toDomain(it) }
             .getOrNull()
     }
 

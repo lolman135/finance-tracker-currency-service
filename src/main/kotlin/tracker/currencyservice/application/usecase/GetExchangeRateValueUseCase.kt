@@ -23,8 +23,8 @@ class GetExchangeRateValueUseCase(
     }
 
     private fun getTargetExchangeRate(from: CurrencyCode, to: CurrencyCode): BigDecimal {
-         if (from == to)
-             return BigDecimal.ONE
+        if (from == to)
+            return BigDecimal.ONE
 
         val usdToBaseRate = if (from == CurrencyCode.USD) {
             BigDecimal.ONE

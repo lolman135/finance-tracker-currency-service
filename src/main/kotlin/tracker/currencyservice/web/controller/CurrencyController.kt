@@ -13,7 +13,6 @@ import tracker.currencyservice.application.usecase.ConvertCurrencyUseCase
 import tracker.currencyservice.application.usecase.GetAllCurrencyUseCase
 import tracker.currencyservice.application.usecase.RefreshRatesUseCase
 import tracker.currencyservice.infrasctructure.dto.inbound.ConvertBatchDtoInbound
-import tracker.currencyservice.infrasctructure.dto.inbound.ConvertBatchItemSubDtoInbound
 import tracker.currencyservice.infrasctructure.dto.inbound.ConvertCurrencyInboundDto
 import tracker.currencyservice.infrasctructure.dto.outbound.AllCurrenciesDtoOutbound
 import tracker.currencyservice.infrasctructure.dto.outbound.ConvertedBatchDtoOutbound

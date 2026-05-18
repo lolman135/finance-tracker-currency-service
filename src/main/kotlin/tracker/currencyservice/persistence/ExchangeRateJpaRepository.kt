@@ -7,27 +7,32 @@ import java.time.Instant
 import java.util.Optional
 
 @Repository
-interface ExchangeRateJpaRepository : JpaRepository<ExchangeRateEntity, Long>{
+interface ExchangeRateJpaRepository : JpaRepository<ExchangeRateEntity, Long> {
 
-    @Query("""
+    @Query(
+        """
         SELECT e FROM ExchangeRateEntity e 
         WHERE e.from = :from AND e.to = :to
         ORDER BY e.fetchedAt DESC
         LIMIT 1
-        """)
+        """
+    )
     fun findLatestRate(from: String, to: String): Optional<ExchangeRateEntity>
 
-    @Query("""
+    @Query(
+        """
         SELECT e FROM ExchangeRateEntity e 
         WHERE e.from = :from 
             AND e.to = :to
             AND e.fetchedAt <= :fetchedBefore
         ORDER BY e.fetchedAt DESC
         LIMIT 1
-    """)
+    """
+    )
     fun findLatestRateBefore(from: String, to: String, fetchedBefore: Instant): Optional<ExchangeRateEntity>
 
-    @Query("""
+    @Query(
+        """
         SELECT e FROM ExchangeRateEntity e
         WHERE e.from = :from AND e.to in :toCurrencies
         AND e.fetchedAt = (
@@ -35,10 +40,12 @@ interface ExchangeRateJpaRepository : JpaRepository<ExchangeRateEntity, Long>{
             FROM ExchangeRateEntity e2
             WHERE e2.from = e.from AND e2.to = e.to
         )
-    """)
+    """
+    )
     fun findLatestRates(from: String, toCurrencies: Collection<String>): List<ExchangeRateEntity>
 
-    @Query("""
+    @Query(
+        """
         SELECT e FROM ExchangeRateEntity e
         WHERE e.from = :from AND e.to in :toCurrencies
         AND e.fetchedAt = (
@@ -48,7 +55,8 @@ interface ExchangeRateJpaRepository : JpaRepository<ExchangeRateEntity, Long>{
                 AND e2.to = e.to
                 AND e2.fetchedAt <= :fetchedBefore
         )
-    """)
+    """
+    )
     fun findLatestRatesBefore(
         from: String,
         toCurrencies: Collection<String>,

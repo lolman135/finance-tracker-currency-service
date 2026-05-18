@@ -13,6 +13,7 @@ interface CommandDtoMapper {
     // to command
     fun convertCurrencyDtoToCommand(dto: ConvertCurrencyInboundDto): ConvertCurrencyCommand
     fun convertBatchDtoToCommand(dto: ConvertBatchDtoInbound): ConvertBatchCommand
+
     // to dto
     fun singleConvertedInfoToDto(info: ConvertedCurrencyInfo): ConvertedCurrencyDtoOutbound
     fun convertedBatchInfoToDto(info: ConvertedBatchInfo): ConvertedBatchDtoOutbound
