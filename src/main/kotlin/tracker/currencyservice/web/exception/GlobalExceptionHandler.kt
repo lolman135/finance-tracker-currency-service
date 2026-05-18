@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.context.request.WebRequest
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler
 import tracker.currencyservice.application.exception.DomainNotFoundException
+import tracker.currencyservice.infrasctructure.exception.CurrencyNotFoundException
 import java.net.URI
 
 @ControllerAdvice
@@ -22,6 +23,16 @@ class GlobalExceptionHandler : ResponseEntityExceptionHandler() {
 
     @ExceptionHandler(DomainNotFoundException::class)
     fun handleDomainNotFoundException(ex: DomainNotFoundException, request: HttpServletRequest): ProblemDetail {
+        val problem = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.message)
+        problem.title = "Not Found"
+        problem.type = URI.create("https://example.com/errors/not-found")
+        problem.instance = URI.create(request.requestURI)
+        log.warn(ex.message)
+        return problem
+    }
+
+    @ExceptionHandler(CurrencyNotFoundException::class)
+    fun handleCurrencyNotFoundException(ex: CurrencyNotFoundException, request: HttpServletRequest): ProblemDetail {
         val problem = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.message)
         problem.title = "Not Found"
         problem.type = URI.create("https://example.com/errors/not-found")

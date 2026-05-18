@@ -9,6 +9,7 @@ import tracker.currencyservice.domain.ExchangeRateRepository
 import tracker.currencyservice.domain.model.CurrencyCode
 import tracker.currencyservice.domain.model.ExchangeRate
 import org.springframework.stereotype.Service
+import tracker.currencyservice.application.exception.ExchangeRateAtMomentNotFoundException
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.time.Instant
@@ -78,10 +79,12 @@ class ConvertBatchUseCase(
         } else {
             if (fetchedBefore == null) {
                 repository.findLatestRate(CurrencyCode.USD, targetCurrencyCode)
+                    ?: throw ExchangeRateNotFoundException(CurrencyCode.USD, targetCurrencyCode)
             } else {
                 repository.findLatestRateBefore(CurrencyCode.USD, targetCurrencyCode, fetchedBefore)
+                    ?: throw ExchangeRateAtMomentNotFoundException(CurrencyCode.USD, targetCurrencyCode, fetchedBefore)
             }
-                ?: throw ExchangeRateNotFoundException(CurrencyCode.USD, targetCurrencyCode)
+
         }
 
         val filteredFromCodes = fromCodesList.filter { it != CurrencyCode.USD }
