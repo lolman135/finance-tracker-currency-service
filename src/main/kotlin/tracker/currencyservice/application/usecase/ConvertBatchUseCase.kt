@@ -81,7 +81,7 @@ class ConvertBatchUseCase(
             } else {
                 repository.findLatestRateBefore(CurrencyCode.USD, targetCurrencyCode, fetchedBefore)
             }
-                ?:throw ExchangeRateNotFoundException(CurrencyCode.USD, targetCurrencyCode)
+                ?: throw ExchangeRateNotFoundException(CurrencyCode.USD, targetCurrencyCode)
         }
 
         val filteredFromCodes = fromCodesList.filter { it != CurrencyCode.USD }
