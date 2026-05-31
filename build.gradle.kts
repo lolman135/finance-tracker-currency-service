@@ -28,6 +28,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
     implementation("org.springframework.boot:spring-boot-starter-liquibase")
     implementation("org.liquibase:liquibase-core")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.0")
     implementation("jakarta.validation:jakarta.validation-api:3.1.0")
     implementation("org.springframework.boot:spring-boot-starter-validation:3.5.5")
     implementation("io.github.cdimascio:dotenv-java:3.0.0")

@@ -52,6 +52,14 @@ cache:
   lifetime-minutes:
     60
 
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    url: /openapi/currency.yaml
+
 rate-provider:
   api:
     url: ${RATE_PROVIDER_URL}
+

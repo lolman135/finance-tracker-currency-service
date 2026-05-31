@@ -1,0 +1,227 @@
+openapi: 3.0.1
+info:
+  title: Currency Exchange Rate Service
+  version: 1.0.0
+
+tags:
+  - name: Rates
+    description: Converted rates and amounts
+  - name: Currency-Codes
+    description: List of available currencies
+paths:
+
+  /api/v1/currencies:
+    get:
+      tags: [Currency-Codes]
+      summary: "GET api/v1/currencies"
+      operationId: "getAllCurrencies"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AllCurrenciesDtoOutbound"
+
+  /api/v1/currencies/convert:
+    post:
+      tags: [Rates]
+      summary: "POST api/v1/currencies/convert"
+      operationId: "convert"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ConvertCurrencyInboundDto"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ConvertedCurrencyDtoOutbound"
+
+  /api/v1/currencies/convert-batch:
+    post:
+      tags: [Rates]
+      summary: "POST api/v1/currencies/convert-batch"
+      operationId: "convertBatch"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ConvertBatchDtoInbound"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ConvertedBatchDtoOutbound"
+
+  /api/v1/currencies/refresh:
+    post:
+      tags: [Rates]
+      summary: "POST api/v1/currencies/refresh"
+      operationId: "refreshCurrencyRates"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Void"
+
+components:
+  schemas:
+    ConvertCurrencyInboundDto:
+      type: object
+      required:
+        - amount
+        - from
+        - to
+      properties:
+        amount:
+          type: number
+          minimum: 0
+          description: "The amount of money to be converted."
+        from:
+          type: string
+          pattern: "^[A-Z]{3}$"
+          description: "The source 3-letter currency code (e.g., USD)."
+        to:
+          type: string
+          pattern: "^[A-Z]{3}$"
+          description: "The target 3-letter currency code (e.g., EUR)."
+        at:
+          type: string
+          format: date-time
+          nullable: true
+          description: "Optional historical timestamp to look up specific exchange rates from the past."
+
+    ConvertBatchDtoInbound:
+      type: object
+      required:
+        - targetCurrency
+      properties:
+        targetCurrency:
+          type: string
+          pattern: "^[A-Z]{3}$"
+          description: "The common target currency code to which all items in the batch will be converted."
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/ConvertBatchItemSubDtoInbound"
+          description: "A list of individual currency items to convert."
+        before:
+          type: string
+          format: date-time
+          nullable: true
+          description: "Optional historical timestamp to evaluate exchange rates that were active before this point in time."
+
+    ConvertBatchItemSubDtoInbound:
+      type: object
+      required:
+        - from
+        - amount
+      properties:
+        from:
+          type: string
+          pattern: "^[A-Z]{3}$"
+          description: "The source currency code of the individual batch item."
+        amount:
+          type: number
+          minimum: 0
+          description: "The amount of money for this specific batch item."
+
+
+    # --- Outbound DTOs ---
+
+    AllCurrenciesDtoOutbound:
+      type: object
+      required:
+        - currencies
+      properties:
+        currencies:
+          type: array
+          items:
+            type: string
+          description: "A list of all supported currency codes available in the system."
+
+    ConvertedCurrencyDtoOutbound:
+      type: object
+      required:
+        - from
+        - to
+        - originalAmount
+        - targetedRateValue
+        - finalAmount
+      properties:
+        from:
+          type: string
+          description: "The source currency code."
+        to:
+          type: string
+          description: "The target currency code."
+        originalAmount:
+          type: number
+          description: "The original amount before conversion."
+        targetedRateValue:
+          type: number
+          description: "The specific exchange rate applied during the conversion."
+        finalAmount:
+          type: number
+          description: "The resulting converted amount of money."
+
+    ConvertedBatchDtoOutbound:
+      type: object
+      required:
+        - targetCurrency
+        - totalAmount
+        - at
+        - items
+      properties:
+        targetCurrency:
+          type: string
+          description: "The target currency code applied to the entire batch."
+        totalAmount:
+          type: number
+          description: "The accumulated total sum of all converted items in the target currency."
+        at:
+          type: string
+          format: date-time
+          description: "The calculation timestamp or the historical moment when the exchange rates were effective."
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/ConvertedBatchItemSubDto"
+          description: "A detailed breakdown of each processed batch item."
+
+    ConvertedBatchItemSubDto:
+      type: object
+      required:
+        - from
+        - amount
+        - rate
+        - convertedAmount
+      properties:
+        from:
+          type: string
+          description: "The original source currency of the item."
+        amount:
+          type: number
+          description: "The original amount of the item before conversion."
+        rate:
+          type: number
+          description: "The exchange rate applied to this specific item."
+        convertedAmount:
+          type: number
+          description: "The individual converted amount in the target currency."
+
+    # --- Miscellaneous ---
+
+    Void:
+      type: object
+      description: "An empty response body indicating a successful operation with no data returned."
